@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery.js"></script>
+    <!-- 导入模版引擎 -->
+    <script src="./template-web.js"></script>
+    <!-- 在window全局 多一个函数叫做template（"模版的id",需要渲染的数据对象） -->
+</head>
+
+<body>
+    <div class="container"></div>
+
+    <script type="text/html" id="tpl-user">
+        <h3>{{regTime | dataFormat}}</h3>
+    </script>
+
+    <script>
+        //定义过滤器
+        template.defaults.imports.dataFormat = function (data) {
+            // 获取年月份时间
+            var y = data.getFullYear();
+            var m = data.getMonth() + 1;
+            var d = data.getDate();
+            return y + "-" + m + "-" + d;
+        };
+        var data = { regTime: new Date() }
+        var htmlstr = template("tpl-user", data);
+        console.log(htmlstr);
+        $(".container").html(htmlstr);
+
+    </script>
+</body>
+
+</html>

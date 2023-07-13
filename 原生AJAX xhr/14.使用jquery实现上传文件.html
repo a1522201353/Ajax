@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../../jquery.js"></script>
+    <style>
+        .progress {
+            width: 500px;
+            margin: 10px 15px;
+        }
+
+        .btn {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="file1">
+    <button class="btn btn-primary">上传文件</button>
+    <br />
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped active petcent" style="width: 0%">
+            0%
+        </div>
+    </div>
+    <img src="" alt="" class="img" />
+    <script>
+        $(function () {
+            // 给按钮添加点击事件
+            $(".btn").on("click", function () {
+                // 获取的是一个选择文件的数组
+                // 当发起ajax请求就会执行下列代码
+                $(document).ajaxStart(function () {
+
+                });
+                // 当发起ajax完成了
+                $(document).ajaxStop(function () {
+
+                });
+
+
+
+                var fifle = $("#file1")[0].files;
+                // 小于等于0说明没有选择文件
+                if (fifle.length <= 0) {
+                    return alert("请选择要上传的文件");
+                }
+                console.log("文件上传成功");
+                var form = new FormData();
+                form.append("avatar", fifle[0]);
+                console.log(form);
+                $.ajax({
+                    type: "POST",
+                    url: "http://www.liulongbin.top:3006/api/upload/avatar",
+                    data: form,
+                    // 默认写法 这两句
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        // 说明文件上传成功 当等于200时说明上传成功
+                        if (res.status === 200) {
+                            console.log(res);
+                            // 将图片链接上传到服务器
+                            $(".img").attr("src", "http://www.liulongbin.top:3006" + res.url);
+                        }
+                        else {
+                            return alert("图片上传失败");
+                        }
+                    },
+                    xhr: function () {
+                        var xhr = new XMLHttpRequest();
+                        xhr.upload.addEventListener("progress", function (e) {
+                            if (e.lengthComputable) {
+                                var procent = Math.ceil((e.loaded / e.total) * 100);
+                                $(".petcent").css("width", procent + "%");
+                                $(".petcent").html(procent + "%");
+                            }
+                        })
+                        xhr.upload.onload = function () {
+                            // 移除所有类名
+                            // $(".petcent").removeClass();
+                            // 当上传成功时将类名改成绿色
+                            $(".petcent").addClass("progress-bar progress-bar-success active");
+
+                        }
+                        return xhr;
+                    }
+                })
+
+            })
+        })
+    </script>
+</body>
+
+</html>

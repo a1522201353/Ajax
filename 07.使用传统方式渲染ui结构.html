@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../jquery.js"></script>
+</head>
+
+<body>
+    <div class="title"></div>
+    <div>姓名：<span class="name"></span></div>
+    <div>年龄：<span class="age"></span></div>
+    <div>会员：<span class="isvip"></span></div>
+    <div>注册时间：<span class="regTime"></span></div>
+    <div>爱好：
+        <ul class="hobby">
+
+        </ul>
+    </div>
+    <script>
+        var data = {
+            title: "<h1>用户信息</h1>",
+            name: "zs",
+            age: 20,
+            isvip: true,
+            regTime: new Date(),
+            hobby: ["吃饭", "睡觉", "打豆豆"]
+        }
+        $(function () {
+            $(".title").html(data.title);
+            $(".name").html(data.name);
+            $(".isvip").html(data.isvip);
+            $(".regTime").html(data.regTime);
+            var rows = [];
+            $.each(data.hobby, function (i, item) {
+                rows.push("<li>" + item + "</li>");
+            })
+            $(".hobby").html(rows.join(""));
+
+
+        })
+    </script>
+</body>
+
+</html>

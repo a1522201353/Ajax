@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery.js"></script>
+    <!-- 导入模版引擎 -->
+    <script src="./template-web.js"></script>
+    <!-- 在window全局 多一个函数叫做template（"模版的id",需要渲染的数据对象） -->
+</head>
+
+<body>
+    <!-- 3.定义模版 -->
+    <!-- 3.1模版的html方向,必须定义到script中 -->
+    <!-- 将type属性改成html -->、
+    <div class="container"></div>
+    <script type="text/html" id="tpl-user">
+        <h1>{{name}}</h1>
+        <!-- 要输入带有h3样式要在前面加@ -->
+        {{@text}}
+
+        <div>
+            {{if flag ===0}}
+            flag的值为0
+            {{else if flag === 1}}
+            flag的值为1
+            {{/if}}
+        </div>
+
+        <ul>
+            {{each hobby}}
+            <li>索引是{{$index}},循环项是:{{$value}}</li>
+            {{/each}}
+        </ul>
+
+
+    </script>
+    <script>
+        // 定义需要渲染的数据
+        var data = { name: "zs", text: "<h3>nihao</h3>", flag: 0, hobby: ["吃饭", "睡觉", "大代码"] };
+        // 调用template函数
+        // 这里不用加点 或者井号
+        // 必须要id
+        var htmlstr = template("tpl-user", data);
+        console.log(htmlstr);
+        // 渲染html结构
+        $(".container").html(htmlstr);
+    </script>
+</body>
+
+</html>
